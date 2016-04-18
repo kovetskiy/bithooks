@@ -28,7 +28,7 @@ func TestDecode(t *testing.T) {
 			raw: `
 1@1
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"1", "1", "",
 				},
@@ -37,7 +37,7 @@ func TestDecode(t *testing.T) {
 		{
 			raw: `2@2
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"2", "2", "",
 				},
@@ -47,7 +47,7 @@ func TestDecode(t *testing.T) {
 			raw: `
 3@3
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"3", "3", "",
 				},
@@ -56,7 +56,7 @@ func TestDecode(t *testing.T) {
 		// :spaces
 		{
 			raw: "4_1@4_1\n4_2@4_2",
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"4_1", "4_1", "",
 				},
@@ -67,7 +67,7 @@ func TestDecode(t *testing.T) {
 		},
 		{
 			raw: "\n5_1@5_1\n5_2@5_2",
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"5_1", "5_1", "",
 				},
@@ -78,7 +78,7 @@ func TestDecode(t *testing.T) {
 		},
 		{
 			raw: "6_1@6_1\n6_2@6_2\n",
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"6_1", "6_1", "",
 				},
@@ -89,7 +89,7 @@ func TestDecode(t *testing.T) {
 		},
 		{
 			raw: "\n\n7_1@7_1\n\n\n7_2@7_2\n\n",
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"7_1", "7_1", "",
 				},
@@ -102,7 +102,7 @@ func TestDecode(t *testing.T) {
 			raw: `
 8_1@8_1
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"8_1", "8_1", "",
 				},
@@ -116,7 +116,7 @@ func TestDecode(t *testing.T) {
 
 9_2@9_2
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"9_1", "9_1",
 					"data 9_1 9_1\ndatablah 9_1 9_1",
@@ -137,7 +137,7 @@ func TestDecode(t *testing.T) {
  yyyyy10_2
  ` + `
  zzzzy10_2`,
-			hooks: []Hook{
+			hooks: Hooks{
 				{
 					"10_1", "10_1",
 					"data 10_1 10_1\ndatablah 10_1 10_1",
@@ -155,7 +155,7 @@ func TestDecode(t *testing.T) {
 X@X
 X@Y
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{"X", "X", ""},
 				{"X", "Y", ""},
 			},
@@ -165,7 +165,7 @@ X@Y
 W@W
 E@W
 `,
-			hooks: []Hook{
+			hooks: Hooks{
 				{"W", "W", ""},
 				{"E", "W", ""},
 			},
@@ -237,6 +237,7 @@ h@f
 					)
 				}
 			}
+
 			continue
 		} else {
 			if testcase.errtext != "" && !test.Error(err, testcaseIdentifier) {
@@ -244,26 +245,27 @@ h@f
 			}
 		}
 
-		test.Len(actualHooks, len(testcase.hooks), testcaseIdentifier)
-		for index, expectedHook := range testcase.hooks {
-			testcaseHookIdentifier := fmt.Sprintf(
-				"%s\nindex: %d\nexpected hook: %# v",
-				testcaseIdentifier, index, pretty.Formatter(expectedHook),
-			)
-			actualHook := actualHooks[index]
+		if test.Len(actualHooks, len(testcase.hooks), testcaseIdentifier) {
+			for index, expectedHook := range testcase.hooks {
+				testcaseHookIdentifier := fmt.Sprintf(
+					"%s\nindex: %d\nexpected hook: %# v",
+					testcaseIdentifier, index, pretty.Formatter(expectedHook),
+				)
+				actualHook := actualHooks[index]
 
-			test.Equal(
-				expectedHook.Name, actualHook.Name, testcaseHookIdentifier,
-			)
-			test.Equal(
-				expectedHook.ID, actualHook.ID, testcaseHookIdentifier,
-			)
-			test.Equal(
-				expectedHook.ID, actualHook.ID, testcaseHookIdentifier,
-			)
-			test.Equal(
-				expectedHook.Data, actualHook.Data, testcaseHookIdentifier,
-			)
+				test.Equal(
+					expectedHook.Name, actualHook.Name, testcaseHookIdentifier,
+				)
+				test.Equal(
+					expectedHook.ID, actualHook.ID, testcaseHookIdentifier,
+				)
+				test.Equal(
+					expectedHook.ID, actualHook.ID, testcaseHookIdentifier,
+				)
+				test.Equal(
+					expectedHook.Data, actualHook.Data, testcaseHookIdentifier,
+				)
+			}
 		}
 	}
 }
@@ -273,13 +275,13 @@ func TestEncode(t *testing.T) {
 
 	testcases := []testcaseEncode{
 		{
-			hooks: []Hook{
+			hooks: Hooks{
 				{"x", "y", ""},
 			},
 			output: "x@y\n",
 		},
 		{
-			hooks: []Hook{
+			hooks: Hooks{
 				{"1", "1", ""},
 				{"2", "2", ""},
 				{"3", "3", ""},
@@ -292,7 +294,7 @@ func TestEncode(t *testing.T) {
 				"3@3\n",
 		},
 		{
-			hooks: []Hook{
+			hooks: Hooks{
 				{"q", "w", "data"},
 			},
 			output: "" +
@@ -300,7 +302,7 @@ func TestEncode(t *testing.T) {
 				" data\n",
 		},
 		{
-			hooks: []Hook{
+			hooks: Hooks{
 				{"y", "u", "data1 \n data2 "},
 			},
 			output: "" +
@@ -309,7 +311,7 @@ func TestEncode(t *testing.T) {
 				"  data2 \n",
 		},
 		{
-			hooks: []Hook{
+			hooks: Hooks{
 				{"a", "s", "data_as\ndataaaaaaaaaa"},
 				{"z", "c", "data_zc"},
 			},

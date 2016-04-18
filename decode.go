@@ -26,9 +26,8 @@ func Decode(data string) (Hooks, error) {
 	lines := strings.Split(data, "\n")
 
 	var (
-		hooks   = Hooks{}
-		hook    = Hook{}
-		defines = map[string]struct{}{}
+		hooks = Hooks{}
+		hook  = &Hook{}
 	)
 
 	for index, line := range lines {
@@ -48,9 +47,8 @@ func Decode(data string) (Hooks, error) {
 
 		case false:
 			if hook.Name != "" {
-				defines[hook.Name+"@"+hook.ID] = struct{}{}
-				hooks = append(hooks, hook)
-				hook = Hook{}
+				hooks.Append(hook)
+				hook = &Hook{}
 			}
 
 			if line == "" {
@@ -66,7 +64,7 @@ func Decode(data string) (Hooks, error) {
 			hook.Name = subject[0]
 			hook.ID = subject[1]
 
-			_, redefine := defines[hook.Name+"@"+hook.ID]
+			_, redefine := hooks.Get(hook.Name, hook.ID)
 			if redefine {
 				return hooks, syntaxError{index + 1, errSyntaxRedefine}
 			}
