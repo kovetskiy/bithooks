@@ -1,4 +1,4 @@
-package bitmultihooks
+package bithooks
 
 import (
 	"testing"
