@@ -106,15 +106,15 @@ func TestDecode(t *testing.T) {
 		{
 			raw: `
 9_1@9_1
- data 9_1 9_1
- datablah 9_1 9_1
+ args 9_1 9_1
+ argsblah 9_1 9_1
 
 9_2@9_2
 `,
 			hooks: Hooks{
 				{
 					"9_1", "9_1",
-					"data 9_1 9_1\ndatablah 9_1 9_1",
+					"args 9_1 9_1\nargsblah 9_1 9_1",
 				},
 				{
 					"9_2", "9_2", "",
@@ -124,8 +124,8 @@ func TestDecode(t *testing.T) {
 		{
 			raw: `
 10_1@10_1
- data 10_1 10_1
- datablah 10_1 10_1
+ args 10_1 10_1
+ argsblah 10_1 10_1
 
 10_2@10_2
  xxxx10_2
@@ -135,7 +135,7 @@ func TestDecode(t *testing.T) {
 			hooks: Hooks{
 				{
 					"10_1", "10_1",
-					"data 10_1 10_1\ndatablah 10_1 10_1",
+					"args 10_1 10_1\nargsblah 10_1 10_1",
 				},
 				{
 					"10_2", "10_2",
@@ -176,7 +176,7 @@ Q@Q
 		{
 			raw: `
 T@T
- data1
+ args1
 
 T@T
 `,
@@ -186,8 +186,8 @@ T@T
 		{
 			raw: `
 S@S
- data1
-data_without_space
+ args1
+args_without_space
 
 N@N
 `,
@@ -203,7 +203,7 @@ h@f
  l
 `,
 			errline: 6,
-			errtext: errSyntaxUnexpectedHookData,
+			errtext: errSyntaxUnexpectedHookArgs,
 		},
 	}
 
@@ -258,7 +258,7 @@ h@f
 					expectedHook.ID, actualHook.ID, testcaseHookIdentifier,
 				)
 				test.Equal(
-					expectedHook.Data, actualHook.Data, testcaseHookIdentifier,
+					expectedHook.Args, actualHook.Args, testcaseHookIdentifier,
 				)
 			}
 		}

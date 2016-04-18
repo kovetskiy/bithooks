@@ -15,15 +15,15 @@ func (err syntaxError) Error() string {
 }
 
 var (
-	errSyntaxUnexpectedHookData = "unexpected hook data"
+	errSyntaxUnexpectedHookArgs = "unexpected hook args"
 	errSyntaxDefine             = "hook should be " +
 		"defined as <name>@<identifier>"
 	errSyntaxRedefine = "cannot redefine hook, " +
 		"hook with same <name>@<identifier> already defined"
 )
 
-func Decode(data string) (Hooks, error) {
-	lines := strings.Split(data, "\n")
+func Decode(args string) (Hooks, error) {
+	lines := strings.Split(args, "\n")
 
 	var (
 		hooks = Hooks{}
@@ -35,14 +35,14 @@ func Decode(data string) (Hooks, error) {
 		case true:
 			if hook.Name == "" {
 				return hooks,
-					syntaxError{index + 1, errSyntaxUnexpectedHookData}
+					syntaxError{index + 1, errSyntaxUnexpectedHookArgs}
 			}
 
 			line = strings.TrimPrefix(line, " ")
-			if hook.Data == "" {
-				hook.Data = line
+			if hook.Args == "" {
+				hook.Args = line
 			} else {
-				hook.Data += "\n" + line
+				hook.Args += "\n" + line
 			}
 
 		case false:

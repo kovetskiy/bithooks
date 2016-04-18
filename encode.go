@@ -7,8 +7,8 @@ func Encode(hooks Hooks) string {
 
 	for _, hook := range hooks {
 		encoded = append(encoded, hook.Name+"@"+hook.ID)
-		if len(hook.Data) > 0 {
-			lines := strings.Split(hook.Data, "\n")
+		if len(hook.Args) > 0 {
+			lines := strings.Split(hook.Args, "\n")
 			for _, line := range lines {
 				encoded = append(encoded, " "+line)
 			}

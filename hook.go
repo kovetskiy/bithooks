@@ -16,7 +16,7 @@ type Hooks []*Hook
 type Hook struct {
 	Name string
 	ID   string
-	Data string
+	Args string
 }
 
 func (hooks *Hooks) Append(hook *Hook) error {
