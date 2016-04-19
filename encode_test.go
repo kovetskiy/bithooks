@@ -19,15 +19,15 @@ func TestEncode(t *testing.T) {
 	testcases := []testcaseEncode{
 		{
 			hooks: Hooks{
-				{"x", "y", ""},
+				{"x", "y", []string{}},
 			},
 			output: "x@y\n",
 		},
 		{
 			hooks: Hooks{
-				{"1", "1", ""},
-				{"2", "2", ""},
-				{"3", "3", ""},
+				{"1", "1", []string{}},
+				{"2", "2", []string{}},
+				{"3", "3", []string{}},
 			},
 			output: "" +
 				"1@1\n" +
@@ -38,7 +38,7 @@ func TestEncode(t *testing.T) {
 		},
 		{
 			hooks: Hooks{
-				{"q", "w", "data"},
+				{"q", "w", []string{"data"}},
 			},
 			output: "" +
 				"q@w\n" +
@@ -46,7 +46,7 @@ func TestEncode(t *testing.T) {
 		},
 		{
 			hooks: Hooks{
-				{"y", "u", "data1 \n data2 "},
+				{"y", "u", []string{"data1 ", " data2 "}},
 			},
 			output: "" +
 				"y@u\n" +
@@ -55,8 +55,8 @@ func TestEncode(t *testing.T) {
 		},
 		{
 			hooks: Hooks{
-				{"a", "s", "data_as\ndataaaaaaaaaa"},
-				{"z", "c", "data_zc"},
+				{"a", "s", []string{"data_as", "dataaaaaaaaaa"}},
+				{"z", "c", []string{"data_zc"}},
 			},
 			output: "" +
 				"a@s\n" +

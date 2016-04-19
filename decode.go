@@ -38,12 +38,7 @@ func Decode(args string) (Hooks, error) {
 					syntaxError{index + 1, errSyntaxUnexpectedHookArgs}
 			}
 
-			line = strings.TrimPrefix(line, " ")
-			if hook.Args == "" {
-				hook.Args = line
-			} else {
-				hook.Args += "\n" + line
-			}
+			hook.Args = append(hook.Args, strings.TrimPrefix(line, " "))
 
 		case false:
 			if hook.Name != "" {

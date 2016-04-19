@@ -25,7 +25,7 @@ func TestDecode(t *testing.T) {
 `,
 			hooks: Hooks{
 				{
-					"1", "1", "",
+					"1", "1", nil,
 				},
 			},
 		},
@@ -34,7 +34,7 @@ func TestDecode(t *testing.T) {
 `,
 			hooks: Hooks{
 				{
-					"2", "2", "",
+					"2", "2", nil,
 				},
 			},
 		},
@@ -44,7 +44,7 @@ func TestDecode(t *testing.T) {
 `,
 			hooks: Hooks{
 				{
-					"3", "3", "",
+					"3", "3", nil,
 				},
 			},
 		},
@@ -53,10 +53,10 @@ func TestDecode(t *testing.T) {
 			raw: "4_1@4_1\n4_2@4_2",
 			hooks: Hooks{
 				{
-					"4_1", "4_1", "",
+					"4_1", "4_1", nil,
 				},
 				{
-					"4_2", "4_2", "",
+					"4_2", "4_2", nil,
 				},
 			},
 		},
@@ -64,10 +64,10 @@ func TestDecode(t *testing.T) {
 			raw: "\n5_1@5_1\n5_2@5_2",
 			hooks: Hooks{
 				{
-					"5_1", "5_1", "",
+					"5_1", "5_1", nil,
 				},
 				{
-					"5_2", "5_2", "",
+					"5_2", "5_2", nil,
 				},
 			},
 		},
@@ -75,10 +75,10 @@ func TestDecode(t *testing.T) {
 			raw: "6_1@6_1\n6_2@6_2\n",
 			hooks: Hooks{
 				{
-					"6_1", "6_1", "",
+					"6_1", "6_1", nil,
 				},
 				{
-					"6_2", "6_2", "",
+					"6_2", "6_2", nil,
 				},
 			},
 		},
@@ -86,10 +86,10 @@ func TestDecode(t *testing.T) {
 			raw: "\n\n7_1@7_1\n\n\n7_2@7_2\n\n",
 			hooks: Hooks{
 				{
-					"7_1", "7_1", "",
+					"7_1", "7_1", nil,
 				},
 				{
-					"7_2", "7_2", "",
+					"7_2", "7_2", nil,
 				},
 			},
 		},
@@ -99,7 +99,7 @@ func TestDecode(t *testing.T) {
 `,
 			hooks: Hooks{
 				{
-					"8_1", "8_1", "",
+					"8_1", "8_1", nil,
 				},
 			},
 		},
@@ -114,10 +114,10 @@ func TestDecode(t *testing.T) {
 			hooks: Hooks{
 				{
 					"9_1", "9_1",
-					"args 9_1 9_1\nargsblah 9_1 9_1",
+					[]string{"args 9_1 9_1", "argsblah 9_1 9_1"},
 				},
 				{
-					"9_2", "9_2", "",
+					"9_2", "9_2", nil,
 				},
 			},
 		},
@@ -135,11 +135,11 @@ func TestDecode(t *testing.T) {
 			hooks: Hooks{
 				{
 					"10_1", "10_1",
-					"args 10_1 10_1\nargsblah 10_1 10_1",
+					[]string{"args 10_1 10_1", "argsblah 10_1 10_1"},
 				},
 				{
 					"10_2", "10_2",
-					"xxxx10_2\nyyyyy10_2\n\nzzzzy10_2",
+					[]string{"xxxx10_2", "yyyyy10_2", "", "zzzzy10_2"},
 				},
 			},
 		},
@@ -151,8 +151,8 @@ X@X
 X@Y
 `,
 			hooks: Hooks{
-				{"X", "X", ""},
-				{"X", "Y", ""},
+				{"X", "X", nil},
+				{"X", "Y", nil},
 			},
 		},
 		{
@@ -161,8 +161,8 @@ W@W
 E@W
 `,
 			hooks: Hooks{
-				{"W", "W", ""},
-				{"E", "W", ""},
+				{"W", "W", nil},
+				{"E", "W", nil},
 			},
 		},
 		{

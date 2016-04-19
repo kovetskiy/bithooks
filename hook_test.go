@@ -10,7 +10,7 @@ func TestHooks_Get_ReturnsHookAndTrueIfFound(t *testing.T) {
 	test := assert.New(t)
 
 	hooks := Hooks{
-		{"x", "y", ""},
+		{"x", "y", nil},
 	}
 	actualHook, ok := hooks.Get("x", "y")
 
@@ -21,7 +21,7 @@ func TestHooks_Get_ReturnsHookAndTrueIfFound(t *testing.T) {
 func TestHooks_Append_AppendsHook(t *testing.T) {
 	test := assert.New(t)
 
-	expectedHook := &Hook{"x", "y", ""}
+	expectedHook := &Hook{"x", "y", nil}
 
 	hooks := Hooks{}
 	hooks.Append(expectedHook)
@@ -35,7 +35,7 @@ func TestHook_Delete(t *testing.T) {
 	test := assert.New(t)
 
 	hooks := Hooks{
-		{"x", "y", ""},
+		{"x", "y", nil},
 	}
 	hooks.Delete("x", "y")
 
